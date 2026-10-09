@@ -1,0 +1,1 @@
+const{chromium}=require('playwright');(async()=>{const b=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe'});const p=await b.newPage();await p.goto('http://127.0.0.1:4175/',{waitUntil:'networkidle'});console.log(await p.locator('.hero-intro').evaluate(v=>({loop:v.loop,outer:v.outerHTML})));await b.close()})();
