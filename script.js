@@ -64,23 +64,35 @@ header.querySelectorAll('nav a').forEach(link => link.addEventListener('click', 
 }));
 
 const canHover = matchMedia('(hover:hover)').matches;
-document.querySelectorAll('.story-card').forEach(card => {
+const storyCards = [...document.querySelectorAll('.story-card')];
+let testimonialSoundOn = false;
+const syncTestimonialSound = on => {
+  testimonialSoundOn = on;
+  storyCards.forEach(item => {
+    const itemVideo = item.querySelector('video');
+    const itemSound = item.querySelector('.sound-toggle');
+    const itemName = item.dataset.name;
+    itemVideo.muted = !on;
+    item.classList.toggle('sound-on', on);
+    itemSound.lastChild.textContent = on ? ' Sound on' : ' Sound off';
+    itemSound.setAttribute('aria-label', `Sound is ${on ? 'on' : 'off'} for all client stories. Click to turn it ${on ? 'off' : 'on'}. Current story: ${itemName}.`);
+  });
+};
+storyCards.forEach(card => {
   const video = card.querySelector('video');
   const sound = card.querySelector('.sound-toggle');
-  const name = card.dataset.name;
   const start = () => {
     document.querySelectorAll('.story-card.playing').forEach(other => {
       if (other !== card) other.dispatchEvent(new CustomEvent('stop-preview'));
     });
     card.classList.add('playing');
+    video.muted = !testimonialSoundOn;
     video.play().catch(() => {});
   };
   const stop = () => {
-    card.classList.remove('playing', 'sound-on');
+    card.classList.remove('playing');
     video.pause();
-    video.muted = true;
-    sound.lastChild.textContent = ' Sound off';
-    sound.setAttribute('aria-label', `Sound is off for ${name}. Click to turn it on.`);
+    video.muted = !testimonialSoundOn;
     try { video.currentTime = .2; } catch {}
   };
   card.addEventListener('stop-preview', stop);
@@ -99,12 +111,8 @@ document.querySelectorAll('.story-card').forEach(card => {
   sound.addEventListener('click', event => {
     event.preventDefault();
     event.stopPropagation();
+    syncTestimonialSound(!testimonialSoundOn);
     start();
-    const turnOn = video.muted;
-    video.muted = !turnOn;
-    card.classList.toggle('sound-on', turnOn);
-    sound.lastChild.textContent = turnOn ? ' Sound on' : ' Sound off';
-    sound.setAttribute('aria-label', `Sound is ${turnOn ? 'on' : 'off'} for ${name}. Click to turn it ${turnOn ? 'off' : 'on'}.`);
   });
 });
 
@@ -148,4 +156,31 @@ if (proofCounter) {
     }, { threshold: .4 });
     counterObserver.observe(proofCounter);
   }
+}
+
+if (storyViewport && !reduced) {
+  const storyTrack = storyViewport.querySelector('.story-track');
+  let storyAutoTimer = null;
+  let storyIsMoving = false;
+  const autoAdvanceStories = () => {
+    if (document.hidden || storyIsMoving || storyViewport.matches(':hover')) return;
+    const first = storyTrack.firstElementChild;
+    const second = first?.nextElementSibling;
+    if (!first || !second) return;
+    const stride = second.offsetLeft - first.offsetLeft;
+    storyIsMoving = true;
+    storyViewport.scrollBy({ left: stride, behavior: 'smooth' });
+    setTimeout(() => {
+      storyTrack.append(first);
+      storyViewport.style.scrollBehavior = 'auto';
+      storyViewport.scrollLeft = Math.max(0, storyViewport.scrollLeft - stride);
+      storyViewport.style.removeProperty('scroll-behavior');
+      storyIsMoving = false;
+    }, 750);
+  };
+  const storyVisibility = new IntersectionObserver(entries => {
+    clearInterval(storyAutoTimer);
+    storyAutoTimer = entries[0].isIntersecting ? setInterval(autoAdvanceStories, 5000) : null;
+  }, { threshold: .2 });
+  storyVisibility.observe(storyViewport);
 }
