@@ -125,3 +125,27 @@ document.querySelector('#contact-form').addEventListener('submit', event => {
 
 
 
+
+const proofCounter = document.querySelector('.proof-count span');
+if (proofCounter) {
+  const target = 60;
+  if (reduced) {
+    proofCounter.textContent = String(target);
+  } else {
+    proofCounter.textContent = '0';
+    const counterObserver = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting) return;
+      counterObserver.disconnect();
+      const duration = 1500;
+      const startedAt = performance.now();
+      const count = now => {
+        const progress = Math.min((now - startedAt) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        proofCounter.textContent = String(Math.round(target * eased));
+        if (progress < 1) requestAnimationFrame(count);
+      };
+      requestAnimationFrame(count);
+    }, { threshold: .4 });
+    counterObserver.observe(proofCounter);
+  }
+}
