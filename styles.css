@@ -558,3 +558,119 @@ footer>p{font-size:clamp(16px,1.35vw,21px)}
 
 .project-label,.project:not(.project-featured) .project-label{grid-template-columns:1fr;grid-template-areas:'title' 'type';gap:5px}
 
+
+/* Vertically composed attention statement */
+.attention{min-height:115vh}
+.attention-copy{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:0;
+  text-align:center;
+}
+.attention-line{
+  max-width:900px;
+  margin:clamp(42px,5vw,72px) auto 0;
+  font-size:clamp(24px,2.8vw,46px);
+  line-height:1.12;
+}
+.attention-before,
+.attention-copy>p.attention-before{
+  margin:clamp(38px,4vw,62px) 0 0;
+  color:rgba(255,247,248,.62);
+  font-size:12px;
+  line-height:1.8;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+@media(max-width:900px){
+  .attention{min-height:auto}
+  .attention-copy{gap:0;align-items:center}
+  .attention h2{justify-content:center}
+  .attention-line{max-width:620px}
+}
+@media(max-width:560px){
+  .attention-line{font-size:clamp(23px,7vw,34px);margin-top:42px}
+  .attention-before{margin-top:36px;font-size:10px}
+}
+
+/* The cost of a missed first impression */
+.consequence{
+  position:relative;
+  z-index:2;
+  min-height:78svh;
+  padding:clamp(110px,13vw,190px) var(--pad);
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  background:#17050b;
+  color:var(--light);
+}
+.consequence::after{
+  content:'';
+  position:absolute;
+  right:-16vw;
+  bottom:-38vw;
+  width:70vw;
+  aspect-ratio:1;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(219,23,89,.18) 0,rgba(219,23,89,.06) 38%,transparent 68%);
+  pointer-events:none;
+}
+.consequence-inner{
+  position:relative;
+  z-index:1;
+  width:100%;
+  display:grid;
+  grid-template-columns:minmax(0,1.45fr) minmax(320px,.55fr);
+  gap:clamp(60px,10vw,170px);
+  align-items:end;
+}
+.consequence h2{
+  max-width:1020px;
+  margin:0;
+  font-size:clamp(54px,7.8vw,126px);
+  font-weight:500;
+  line-height:.88;
+  letter-spacing:-.062em;
+}
+.consequence h2 em{
+  color:var(--pink);
+  font-family:'Instrument Serif',serif;
+  font-weight:400;
+}
+.consequence-list{border-top:1px solid rgba(255,247,248,.22)}
+.consequence-list p{
+  position:relative;
+  margin:0;
+  padding:22px 0 22px 21px;
+  border-bottom:1px solid rgba(255,247,248,.22);
+  color:rgba(255,247,248,.72);
+  font-size:clamp(15px,1.25vw,20px);
+  line-height:1.35;
+}
+.consequence-list p::before{
+  content:'';
+  position:absolute;
+  left:0;
+  top:30px;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--pink);
+}
+.consequence-list p:nth-child(2){transition-delay:.16s}
+.consequence-list p:nth-child(3){transition-delay:.32s;color:var(--light)}
+@media(max-width:800px){
+  .consequence{min-height:auto}
+  .consequence-inner{grid-template-columns:1fr;align-items:start}
+  .consequence h2{font-size:clamp(52px,12.5vw,90px)}
+}
+@media(max-width:560px){
+  .consequence{padding-top:105px;padding-bottom:105px}
+  .consequence-inner{gap:58px}
+  .consequence h2{font-size:13vw;line-height:.92}
+  .consequence-list p{padding-top:18px;padding-bottom:18px}
+  .consequence-list p::before{top:25px}
+}
