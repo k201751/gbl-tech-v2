@@ -1,17 +1,63 @@
-# GBL Technologies — V2
+# GBL Technologies — Website V2
 
-Single-page redesign focused on a client-first conversion path: urgency, promise, proof, value, selected work, client stories and contact.
+A one-page redesign for GBL Technologies focused on a client-first conversion journey: earn attention, explain the cost of a weak first impression, show proof, present selected work, share client stories, and lead visitors into a project enquiry.
 
-## Preview
+## Live website
 
-Run a static server in this directory and open the local URL. The current preview uses port `4175`.
+**[View the deployed website](https://k201751.github.io/gbl-tech-v2/)**
 
-## Hero footage
+The production site is hosted with GitHub Pages from the `main` branch.
 
-The hero uses “Typing Then Closing A Laptop” by Cup of Couple, downloaded from Pexels and color graded/optimized locally. Source: https://www.pexels.com/video/typing-then-closing-a-laptop-8472460/
+## Design direction
 
-The film is muted, autoplaying and intentionally does not loop. Timed HTML typography stays crisp and responsive over the continuous shot.
+- Editorial black-and-white foundation with restrained powder-blue accents
+- Large serif display typography paired with a clean sans-serif interface
+- Exact GBL wordmark treatment used by the current company website
+- Spacious, page-like sections with scroll-driven expansion
+- Full-width project cards that stack and open as the visitor scrolls
+- Responsive layouts for desktop, tablet, and mobile
 
-## Testimonials
+## Main interactions
 
-Cards play on hover on pointer devices or tap on touch devices. Audio remains off until the visitor selects the visible sound control and resets to off when the pointer leaves or the card exits the viewport.
+- Cinematic hero sequence with timed messaging and a persistent final animation
+- Scroll progress indicator and context-aware navigation styling
+- Animated `60+` proof counter
+- Scroll-stacked selected-work cards
+- Video testimonials that play on hover or tap
+- Optional testimonial audio with a visible sound-state control
+- Automatically advancing testimonial carousel that pauses during interaction
+- Continuously moving written-testimonial rail
+- Contact form that prepares a project-enquiry email
+- Reduced-motion support through `prefers-reduced-motion`
+
+## Local preview
+
+No build step or package installation is required. Run any static file server from the project directory.
+
+Using Python:
+
+```powershell
+cd D:\Dev-Projects\gbl-tech-v2
+python -m http.server 4175
+```
+
+Then open [http://127.0.0.1:4175/](http://127.0.0.1:4175/).
+
+## Project structure
+
+```text
+index.html   Page content and semantic structure
+styles.css   Responsive design, layout, and motion
+script.js    Hero, scroll, navigation, testimonial, and form behavior
+assets/      Local fonts, project artwork, posters, and video files
+```
+
+## External resources
+
+- `Inter` and `Newsreader` are loaded from Google Fonts.
+- Three testimonial videos are served from the official GBL Technologies website; the remaining testimonial videos are stored locally in `assets/`.
+- Selected-work cards link to their corresponding case studies on [gbltechnologies.com](https://gbltechnologies.com/).
+
+## Deployment
+
+GitHub Pages serves the repository root from `main`. Pushing an update to `main` publishes it to the live URL after GitHub completes the Pages deployment.
