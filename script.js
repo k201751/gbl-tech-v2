@@ -184,3 +184,45 @@ if (storyViewport && !reduced) {
   }, { threshold: .2 });
   storyVisibility.observe(storyViewport);
 }
+
+// Editorial page choreography: each surface opens like a page as it enters.
+const editorialPanels = [...document.querySelectorAll('main > section:not(.hero)')];
+const editorialLightSections = new Set(['intro', 'why', 'work', 'consequence', 'contact']);
+const syncEditorial = () => {
+  if (!document.body.classList.contains('editorial')) return;
+  const vh = innerHeight;
+  document.body.classList.toggle('past-hero', scrollY > hero.offsetHeight * .72);
+  editorialPanels.forEach(panel => {
+    if (reduced || panel.id === 'work') {
+      panel.style.setProperty('--panel-inset', '0px');
+      panel.style.setProperty('--panel-radius', '0px');
+      return;
+    }
+    const rect = panel.getBoundingClientRect();
+    const progress = Math.max(0, Math.min(1, (vh - rect.top) / (vh * .72)));
+    const inset = (1 - progress) * Math.min(innerWidth * .045, 58);
+    panel.style.setProperty('--panel-inset', `${inset.toFixed(1)}px`);
+    panel.style.setProperty('--panel-radius', `${((1 - progress) * 22).toFixed(1)}px`);
+  });
+  const headerLine = 76;
+  const active = editorialPanels.find(panel => {
+    const rect = panel.getBoundingClientRect();
+    return rect.top <= headerLine && rect.bottom > headerLine;
+  });
+  header.classList.toggle('header-on-light', Boolean(active && editorialLightSections.has(active.id)));
+  header.classList.toggle('header-on-dark', Boolean(active && !editorialLightSections.has(active.id)));
+};
+if (document.body.classList.contains('editorial')) {
+  let editorialTicking = false;
+  const requestEditorialSync = () => {
+    if (editorialTicking) return;
+    editorialTicking = true;
+    requestAnimationFrame(() => {
+      syncEditorial();
+      editorialTicking = false;
+    });
+  };
+  addEventListener('scroll', requestEditorialSync, { passive:true });
+  addEventListener('resize', requestEditorialSync);
+  syncEditorial();
+}
