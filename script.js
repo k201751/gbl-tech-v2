@@ -187,6 +187,7 @@ if (storyViewport && !reduced) {
 
 // Editorial page choreography: each surface opens like a page as it enters.
 const editorialPanels = [...document.querySelectorAll('main > section:not(.hero)')];
+const editorialProjectCards = [...document.querySelectorAll('.projects .project')];
 const editorialLightSections = new Set(['intro', 'why', 'work', 'consequence', 'contact']);
 const syncEditorial = () => {
   if (!document.body.classList.contains('editorial')) return;
@@ -203,6 +204,18 @@ const syncEditorial = () => {
     const inset = (1 - progress) * Math.min(innerWidth * .045, 58);
     panel.style.setProperty('--panel-inset', `${inset.toFixed(1)}px`);
     panel.style.setProperty('--panel-radius', `${((1 - progress) * 22).toFixed(1)}px`);
+  });
+  editorialProjectCards.forEach(card => {
+    if (reduced) {
+      card.style.setProperty('--project-inset', '0px');
+      card.style.setProperty('--project-radius', '0px');
+      return;
+    }
+    const rect = card.getBoundingClientRect();
+    const progress = Math.max(0, Math.min(1, (vh - rect.top) / (vh * .72)));
+    const inset = (1 - progress) * Math.min(innerWidth * .045, 58);
+    card.style.setProperty('--project-inset', `${inset.toFixed(1)}px`);
+    card.style.setProperty('--project-radius', `${((1 - progress) * 22).toFixed(1)}px`);
   });
   const headerLine = 76;
   const active = editorialPanels.find(panel => {
