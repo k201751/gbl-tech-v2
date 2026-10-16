@@ -1,30 +1,13 @@
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const heroFilm = document.querySelector('.hero-intro');
-const heroLoop = document.querySelector('.hero-loop');
-let finalLoopStarted = false;
 if (heroFilm) {
   heroFilm.muted = true;
-  heroLoop.muted = true;
   if (reduced) {
     heroFilm.pause();
-    heroLoop.pause();
   } else {
     heroFilm.play().catch(() => {});
   }
-  heroFilm.addEventListener('timeupdate', () => {
-    if (!finalLoopStarted && heroFilm.currentTime >= 10.25) {
-      finalLoopStarted = true;
-      heroLoop.currentTime = 0;
-      heroLoop.play().catch(() => {});
-    }
-  });
-  heroFilm.addEventListener('ended', () => {
-    heroFilm.pause();
-    document.querySelector('.hero').classList.add('is-final');
-    if (!finalLoopStarted) heroLoop.play().catch(() => {});
-  });
 }
-
 const revealObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (!entry.isIntersecting) return;
