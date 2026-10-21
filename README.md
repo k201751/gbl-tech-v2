@@ -1,6 +1,6 @@
-# GBL Technologies — Website V2
+# Point Zero — Website Draft
 
-A one-page redesign for GBL Technologies focused on a client-first conversion journey: earn attention, explain the cost of a weak first impression, show proof, present selected work, share client stories, and lead visitors into a project enquiry.
+A one-page redesign for Point Zero focused on a client-first conversion journey: earn attention, explain the cost of a weak first impression, show proof, present selected work, share client stories, and lead visitors into a project enquiry.
 
 ## Live website
 
@@ -61,3 +61,17 @@ assets/      Local fonts, project artwork, posters, and video files
 ## Deployment
 
 GitHub Pages serves the repository root from `main`. Pushing an update to `main` publishes it to the live URL after GitHub completes the Pages deployment.
+
+
+## Point Zero adaptation
+
+- Uses the supplied Point Zero light and dark PNG logos, switching with the header surface.
+- Mirrors the revamp navigation: Why it matters, Selected work, Case studies, Services, Contact us, Reviews, and Get a quote.
+- Dropdowns share the header background and foreground colors and support click, keyboard, Escape, and outside-click dismissal. Mobile navigation scrolls independently.
+- Contact and quote links remain on the homepage. Email and prepared enquiries use info@point0.com, matching the revamp.
+- Separate pages now exist at case-studies/ and web-development/, with individual pages in case-study/ and service/. Menus and project cards link to those pages. New layouts use existing project artwork without copying revamp inner pages. Contact links return to index.html#contact.
+- Legacy gbltechnologies.com URLs remain only as sources for existing testimonial media.
+- JavaScript syntax and local navigation checked. Website Design and Chef Silvia pages verified in the browser at desktop and 390px mobile widths, including scroll reveals, section expansion and FAQ interaction.
+
+
+Inner pages share inner.css and inner.js. work/build-pages.cjs generates their HTML from the homepage navigation and project metadata. The service details and case-study narratives now use the matching public revamp pages, archived in work/revamp-source/. work/source-content.cjs sanitizes and adapts the content into our editorial layouts. inner-motion.js applies homepage-style section expansion, reveals and reduced-motion support.

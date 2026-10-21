@@ -36,15 +36,74 @@ addEventListener('resize', syncPage);
 syncPage();
 
 const menu = document.querySelector('.menu-button');
+const dropdownButtons = [...header.querySelectorAll('.dropdown-toggle')];
+// Measure the expanded panel for one continuous header-and-dropdown backdrop.
+const syncDropdownSurface = () => {
+  const expanded = dropdownButtons.find(button => button.getAttribute('aria-expanded') === 'true');
+  const panel = expanded && document.getElementById(expanded.getAttribute('aria-controls'));
+  header.style.setProperty('--dropdown-height', `${panel ? panel.offsetHeight : 0}px`);
+};
+const dropdownSurfaceObserver = new ResizeObserver(syncDropdownSurface);
+header.querySelectorAll('.dropdown-panel').forEach(panel => dropdownSurfaceObserver.observe(panel));
+
+const closeDropdowns = () => dropdownButtons.forEach(button => {
+  button.setAttribute('aria-expanded', 'false');
+  document.getElementById(button.getAttribute('aria-controls')).hidden = true;
+});
+const closeNavigation = () => {
+  closeDropdowns();
+  header.classList.remove('open');
+  menu.setAttribute('aria-expanded', 'false');
+  menu.setAttribute('aria-label', 'Open navigation');
+};
 menu.addEventListener('click', () => {
-  const open = header.classList.toggle('open');
+  const open = !header.classList.contains('open');
+  closeNavigation();
+  header.classList.toggle('open', open);
   menu.setAttribute('aria-expanded', String(open));
   menu.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
 });
-header.querySelectorAll('nav a').forEach(link => link.addEventListener('click', () => {
-  header.classList.remove('open');
-  menu.setAttribute('aria-expanded', 'false');
+dropdownButtons.forEach(button => button.addEventListener('click', () => {
+  const open = button.getAttribute('aria-expanded') !== 'true';
+  closeDropdowns();
+  button.setAttribute('aria-expanded', String(open));
+  document.getElementById(button.getAttribute('aria-controls')).hidden = !open;
 }));
+// Desktop hover keeps the panel open while moving between its trigger and links.
+const hoverNavigation = matchMedia('(hover: hover) and (min-width: 901px)');
+let dropdownLeaveTimer;
+header.querySelectorAll('.nav-dropdown').forEach(dropdown => {
+  const button = dropdown.querySelector('.dropdown-toggle');
+  dropdown.addEventListener('pointerenter', event => {
+    if (!hoverNavigation.matches || event.pointerType === 'touch') return;
+    clearTimeout(dropdownLeaveTimer);
+    closeDropdowns();
+    button.setAttribute('aria-expanded', 'true');
+    document.getElementById(button.getAttribute('aria-controls')).hidden = false;
+  });
+  dropdown.addEventListener('pointerleave', event => {
+    if (!hoverNavigation.matches || event.pointerType === 'touch') return;
+    dropdownLeaveTimer = setTimeout(() => {
+      if (!dropdown.contains(document.activeElement)) closeDropdowns();
+    }, 180);
+  });
+});
+
+header.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+  closeNavigation();
+}));
+document.addEventListener('click', event => { if (!header.contains(event.target)) closeNavigation(); });
+header.addEventListener('keydown', event => {
+  if (event.key === 'Escape') {
+    const active = dropdownButtons.find(button => button.getAttribute('aria-expanded') === 'true');
+    if (active) { closeDropdowns(); active.focus(); }
+    else { closeNavigation(); menu.focus(); }
+  }
+});
+header.addEventListener('focusout', event => {
+  if (!header.contains(event.relatedTarget)) closeNavigation();
+});
+matchMedia('(max-width: 900px)').addEventListener('change', closeNavigation);
 
 const canHover = matchMedia('(hover:hover)').matches;
 const storyCards = [...document.querySelectorAll('.story-card')];
@@ -108,8 +167,7 @@ document.querySelector('#contact-form').addEventListener('submit', event => {
   event.preventDefault();
   const data = new FormData(event.currentTarget);
   const body = `Name: ${data.get('name')}\nEmail: ${data.get('email')}\n\nWhat the next website should do better:\n${data.get('message')}`;
-  location.href = `mailto:info@gbltechnologies.com?subject=${encodeURIComponent('Website project enquiry')}&body=${encodeURIComponent(body)}`;
-  document.querySelector('#form-status').textContent = 'Your email draft is ready. Send it from your email app to begin the conversation.';
+  location.href = `mailto:info@point0.com?subject=${encodeURIComponent('Website project enquiry')}&body=${encodeURIComponent(body)}`;
 });
 
 
@@ -200,7 +258,7 @@ const syncEditorial = () => {
     card.style.setProperty('--project-inset', `${inset.toFixed(1)}px`);
     card.style.setProperty('--project-radius', `${((1 - progress) * 22).toFixed(1)}px`);
   });
-  const headerLine = 76;
+  const headerLine = header.offsetHeight;
   const active = editorialPanels.find(panel => {
     const rect = panel.getBoundingClientRect();
     return rect.top <= headerLine && rect.bottom > headerLine;
