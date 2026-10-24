@@ -63,7 +63,7 @@ menu.addEventListener('click', () => {
   menu.setAttribute('aria-expanded', String(open));
   menu.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
 });
-dropdownButtons.forEach(button => button.addEventListener('click', () => {
+dropdownButtons.filter(button => button.tagName === 'BUTTON').forEach(button => button.addEventListener('click', () => {
   const open = button.getAttribute('aria-expanded') !== 'true';
   closeDropdowns();
   button.setAttribute('aria-expanded', String(open));

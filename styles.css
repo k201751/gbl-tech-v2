@@ -1453,3 +1453,20 @@ footer>p{font-size:clamp(16px,1.35vw,21px)}
 .case-menu-grid img[src$='work-pawzody-grid.webp']{object-fit:contain;background:#e5ded1}
 
 .case-menu-grid img[src$='work-pawzody-banner.webp']{aspect-ratio:16/7;height:auto;object-fit:contain;background:#e5ded1}
+
+/* Keep the archive link attached to the final selected project. */
+.editorial .projects{padding-bottom:0}
+.editorial .work-actions{padding-top:28px;justify-content:flex-end}
+.editorial .work-all-link{width:auto;min-width:0;min-height:0;padding:10px 0;border:0;border-bottom:1px solid currentColor;border-radius:0;font-size:11px;letter-spacing:.08em;gap:18px}
+.editorial .work-all-link:hover{background:transparent;color:#0a0a0a;box-shadow:none;transform:none}
+.editorial .work-all-link:hover span{transform:translate(3px,-2px)}
+@media(max-width:560px){.editorial .work-actions{padding-top:20px}}
+
+.editorial .work-actions{align-items:stretch}
+.editorial .work-all-link{display:flex;width:100%;box-sizing:border-box;min-height:64px;padding:20px 24px;justify-content:space-between}
+
+
+.editorial .work-actions{width:calc(100% + (var(--pad) * 2));margin-left:calc(var(--pad) * -1);margin-right:calc(var(--pad) * -1)}
+
+
+.editorial .work .work-all-link{display:flex;flex:1 1 100%;width:100%;max-width:none;min-height:64px;margin:0;padding:20px 24px;box-sizing:border-box;border:1px solid #0a0a0a;border-radius:2px;justify-content:space-between;font-size:11px}
