@@ -821,7 +821,7 @@ footer>p{font-size:clamp(16px,1.35vw,21px)}
   text-align:center;
 }
 .editorial .intro-aside p{font-size:12px;line-height:1.45;text-transform:uppercase;letter-spacing:.04em}
-.editorial .intro .text-link,.editorial .page-cta .page-button{
+.editorial :is(.intro .text-link,.work-all-link),.editorial .page-cta .page-button{
   width:max-content;
   margin:25px auto 0;
   padding:9px 12px;
@@ -1202,14 +1202,14 @@ footer>p{font-size:clamp(16px,1.35vw,21px)}
 
 .editorial .slider-nav button{border-radius:3px}
 .editorial .proof{padding-top:calc(clamp(100px,10vw,150px) + 100px)}
-.editorial .intro .text-link,.editorial .page-cta .page-button{
+.editorial :is(.intro .text-link,.work-all-link),.editorial .page-cta .page-button{
   display:inline-flex;
   align-items:center;
   justify-content:center;
   gap:13px;
   line-height:1;
 }
-.editorial .intro .text-link span,.editorial .page-cta .page-button b{
+.editorial :is(.intro .text-link,.work-all-link) span,.editorial .page-cta .page-button b{
   display:block;
   font-size:14px;
   line-height:1;
@@ -1275,18 +1275,18 @@ footer>p{font-size:clamp(16px,1.35vw,21px)}
   margin-right:auto;
   text-align:center;
 }
-.editorial .intro .text-link,.editorial .page-cta .page-button{
+.editorial :is(.intro .text-link,.work-all-link),.editorial .page-cta .page-button{
   transition:background .25s,color .25s,transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s;
 }
-.editorial .intro .text-link span,.editorial .page-cta .page-button b{transition:transform .3s cubic-bezier(.16,1,.3,1)}
-.editorial .intro .text-link:hover,.editorial .page-cta .page-button:hover{
+.editorial :is(.intro .text-link,.work-all-link) span,.editorial .page-cta .page-button b{transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.editorial :is(.intro .text-link,.work-all-link):hover,.editorial .page-cta .page-button:hover{
   background:#0a0a0a;
   color:#fff;
   transform:translateY(-3px);
   box-shadow:0 10px 24px rgba(30,47,70,.15);
 }
-.editorial .intro .text-link:hover span,.editorial .page-cta .page-button:hover b{transform:translate(2px,1px)}
-.editorial .intro .text-link:active,.editorial .page-cta .page-button:active{transform:translateY(-1px)}
+.editorial :is(.intro .text-link,.work-all-link):hover span,.editorial .page-cta .page-button:hover b{transform:translate(2px,1px)}
+.editorial :is(.intro .text-link,.work-all-link):active,.editorial .page-cta .page-button:active{transform:translateY(-1px)}
 .editorial .proof-ribbon{background:#c9d9f3;color:#0a0a0a}
 .editorial .story-shade{
   background:linear-gradient(to bottom,rgba(0,0,0,.1),transparent 43%,rgba(12,25,45,.92));
@@ -1408,3 +1408,48 @@ footer>p{font-size:clamp(16px,1.35vw,21px)}
 .editorial .attention-copy>p.attention-before{flex-direction:column;gap:0}
 .editorial .attention-before span{display:block;width:100%;padding:10px 0}
 .editorial .attention-before span+span{border:0}
+
+/* Show the complete Pawzody composition within existing project frames. */
+.project-media img[src$='work-pawzody-banner.webp']{object-fit:contain;background:#e8f3f9}
+
+/* Pawzody's approved gold artwork keeps its full composition and color. */
+.editorial .projects .project:has(img[src$='work-pawzody-banner.webp']){aspect-ratio:16/7;min-height:0}
+.editorial .projects .project-media img[src$='work-pawzody-banner.webp']{filter:none;object-fit:contain;background:#06243d;transform:none}
+.editorial .projects .project:hover .project-media img[src$='work-pawzody-banner.webp']{filter:none;transform:none}
+
+.case-menu-grid{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+@media(max-width:560px){.case-menu-grid{grid-template-columns:1fr}}
+
+/* Fourth selected-work card continues the existing scroll stack. */
+.projects>.project:nth-child(3){margin-bottom:14vh}.projects>.project:nth-child(4){--stack-top:140px;z-index:4;margin-bottom:0}
+@media(max-width:900px){.projects>.project:nth-child(4){--stack-top:108px}}
+
+.project-media img[src$='work-chef-silvia.png']{object-fit:contain;background:#f7f4ef}
+.editorial .projects .project:has(img[src$='work-chef-silvia.png']){aspect-ratio:16/7;min-height:0}
+.editorial .projects .project-media img[src$='work-chef-silvia.png']{filter:none;object-fit:contain;background:#f7f4ef;transform:none}
+.editorial .projects .project:hover .project-media img[src$='work-chef-silvia.png']{filter:none;transform:none}
+
+.work-actions{position:relative;z-index:5;display:flex;justify-content:center;padding-top:60px}.editorial .work-all-link{margin:0;background:transparent;color:#0a0a0a}
+
+.project-media img[src$='work-3eir.webp']{object-fit:contain;background:#121312}
+.editorial .projects .project:has(img[src$='work-3eir.webp']){aspect-ratio:16/7;min-height:0}
+.editorial .projects .project-media img[src$='work-3eir.webp']{filter:none;object-fit:contain;background:#121312;transform:none}
+.editorial .projects .project:hover .project-media img[src$='work-3eir.webp']{filter:none;transform:none}
+
+.project-media img[src$='work-destiny-farms.webp']{object-fit:contain;background:#0c1910}
+.editorial .projects .project:has(img[src$='work-destiny-farms.webp']){aspect-ratio:16/7;min-height:0}
+.editorial .projects .project-media img[src$='work-destiny-farms.webp']{filter:none;object-fit:contain;background:#0c1910;transform:none}
+.editorial .projects .project:hover .project-media img[src$='work-destiny-farms.webp']{filter:none;transform:none}
+
+.project-media img[src$='work-durga-tarot.webp']{object-fit:contain;background:#061320}
+.editorial .projects .project:has(img[src$='work-durga-tarot.webp']){aspect-ratio:16/7;min-height:0}
+.editorial .projects .project-media img[src$='work-durga-tarot.webp']{filter:none;object-fit:contain;background:#061320;transform:none}
+.editorial .projects .project:hover .project-media img[src$='work-durga-tarot.webp']{filter:none;transform:none}
+
+/* Preserve the complete Peter Webber slate-blue and crimson banner. */
+.editorial .projects .project:has(img[src$='work-peter-webber.webp']){aspect-ratio:16/7;min-height:0}
+.editorial .projects .project-media img[src$='work-peter-webber.webp'],.editorial .projects .project:hover .project-media img[src$='work-peter-webber.webp']{filter:none;object-fit:contain;background:#607384;transform:none}
+
+.case-menu-grid img[src$='work-pawzody-grid.webp']{object-fit:contain;background:#e5ded1}
+
+.case-menu-grid img[src$='work-pawzody-banner.webp']{aspect-ratio:16/7;height:auto;object-fit:contain;background:#e5ded1}

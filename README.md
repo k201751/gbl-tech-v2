@@ -75,3 +75,8 @@ GitHub Pages serves the repository root from `main`. Pushing an update to `main`
 
 
 Inner pages share inner.css and inner.js. work/build-pages.cjs generates their HTML from the homepage navigation and project metadata. The service details and case-study narratives now use the matching public revamp pages, archived in work/revamp-source/. work/source-content.cjs sanitizes and adapts the content into our editorial layouts. inner-motion.js applies homepage-style section expansion, reveals and reduced-motion support.
+
+
+## New portfolio editorial drafts
+
+Peter Webber, Destiny Farms, Durga Tarot, and Tantress Milah use site-specific draft copy in work/portfolio-drafts.cjs. These drafts describe public-facing features without asserting before/after metrics, client testimonials, or unverified build technologies. The SEO team should confirm the delivered project scope and revise the narrative before publication. Source URLs are recorded with each draft. Covers are optimized screenshots of the public websites, saved from browser captures in work/portfolio-drafts/.
