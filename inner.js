@@ -69,5 +69,13 @@ header.addEventListener('focusout', event => {
 });
 matchMedia('(max-width: 900px)').addEventListener('change', closeNavigation);
 
+document.querySelectorAll('footer a[href$="#top"], a[href="#top"]').forEach(link => {
+  link.addEventListener('click', event => {
+    event.preventDefault();
+    closeNavigation();
+    window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  });
+});
+
 
 addEventListener('scroll',()=>{const range=document.documentElement.scrollHeight-innerHeight;document.querySelector('.progress').style.width=(range?scrollY/range*100:0)+'%';},{passive:true});

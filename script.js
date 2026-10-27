@@ -105,6 +105,15 @@ header.addEventListener('focusout', event => {
 });
 matchMedia('(max-width: 900px)').addEventListener('change', closeNavigation);
 
+document.querySelectorAll('a[href="#top"], footer a[href$="#top"]').forEach(link => {
+  link.addEventListener('click', event => {
+    event.preventDefault();
+    closeNavigation();
+    window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+    if (location.hash === '#top') history.replaceState(null, '', location.pathname + location.search);
+  });
+});
+
 const canHover = matchMedia('(hover:hover)').matches;
 const storyCards = [...document.querySelectorAll('.story-card')];
 let testimonialSoundOn = false;
