@@ -1326,6 +1326,8 @@ footer>p{font-size:clamp(16px,1.35vw,21px)}
   will-change:clip-path;
 }
 .editorial .contact label{transition:border-color .25s,background .25s}
+.contact label:has(textarea),.contact label:last-of-type{grid-column:1/-1}
+@media(max-width:560px){.contact label:has(textarea),.contact label:last-of-type{grid-column:1}}
 .editorial .contact label:focus-within{
   border-color:#0a0a0a;
   background:rgba(201,217,243,.16);

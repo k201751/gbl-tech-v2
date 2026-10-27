@@ -225,7 +225,7 @@ document.querySelector('.slide-next').addEventListener('click', () => slideBy(1)
 document.querySelector('#contact-form').addEventListener('submit', event => {
   event.preventDefault();
   const data = new FormData(event.currentTarget);
-  const body = `Name: ${data.get('name')}\nEmail: ${data.get('email')}\n\nWhat the next website should do better:\n${data.get('message')}`;
+  const body = `Name: ${data.get('name')}\nEmail: ${data.get('email')}\nPhone: ${data.get('phone')}\n\nWhat the next website should do better:\n${data.get('message')}`;
   location.href = `mailto:info@point0.com?subject=${encodeURIComponent('Website project enquiry')}&body=${encodeURIComponent(body)}`;
 });
 
