@@ -114,6 +114,32 @@ document.querySelectorAll('a[href="#top"], footer a[href$="#top"]').forEach(link
   });
 });
 
+const scrollToContactForm = (smooth = true) => {
+  const form = document.querySelector('#contact-form');
+  if (!form) return;
+  const headerHeight = header ? header.offsetHeight : 76;
+  const rect = form.getBoundingClientRect();
+  const availableHeight = innerHeight - headerHeight;
+  const offset = rect.height < availableHeight
+    ? headerHeight + Math.max(20, (availableHeight - rect.height) * 0.45)
+    : headerHeight + 24;
+  const targetY = Math.max(0, scrollY + rect.top - offset);
+  window.scrollTo({ top: targetY, behavior: smooth && !reduced ? 'smooth' : 'auto' });
+};
+
+document.querySelectorAll('a[href="#contact"], a[href="#contact-form"]').forEach(link => {
+  link.addEventListener('click', event => {
+    event.preventDefault();
+    closeNavigation();
+    scrollToContactForm(true);
+    history.replaceState(null, '', '#contact-form');
+  });
+});
+
+if (location.hash === '#contact' || location.hash === '#contact-form') {
+  requestAnimationFrame(() => scrollToContactForm(false));
+}
+
 const canHover = matchMedia('(hover:hover)').matches;
 const storyCards = [...document.querySelectorAll('.story-card')];
 let testimonialSoundOn = false;
