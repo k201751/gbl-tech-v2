@@ -114,56 +114,54 @@ document.querySelectorAll('a[href="#top"], footer a[href$="#top"]').forEach(link
   });
 });
 
-const scrollToContactForm = (smooth = true) => {
-  const form = document.querySelector('#contact-form');
-  if (!form) return;
-  const headerHeight = header ? header.offsetHeight : 76;
-  const rect = form.getBoundingClientRect();
+const computeCenteredScrollY = el => {
+  const headerHeight = header ? header.offsetHeight : 84;
+  const rect = el.getBoundingClientRect();
   const availableHeight = innerHeight - headerHeight;
   const offset = rect.height < availableHeight
-    ? headerHeight + Math.max(20, (availableHeight - rect.height) * 0.45)
-    : headerHeight + 24;
-  const targetY = Math.max(0, scrollY + rect.top - offset);
+    ? headerHeight + Math.max(16, (availableHeight - rect.height) * 0.35)
+    : headerHeight + 20;
+  return Math.max(0, scrollY + rect.top - offset);
+};
+
+const scrollToTarget = (selector, smooth = true) => {
+  const el = document.querySelector(selector);
+  if (!el) return;
+  document.querySelectorAll('.projects img[loading="lazy"]').forEach(img => { img.loading = 'eager'; });
+  const targetY = computeCenteredScrollY(el);
   window.scrollTo({ top: targetY, behavior: smooth && !reduced ? 'smooth' : 'auto' });
+  [350, 750].forEach(delay => {
+    setTimeout(() => {
+      const correctedY = computeCenteredScrollY(el);
+      if (Math.abs(scrollY - correctedY) > 10) {
+        window.scrollTo({ top: correctedY, behavior: smooth && !reduced ? 'smooth' : 'auto' });
+      }
+    }, delay);
+  });
 };
 
 document.querySelectorAll('a[href="#contact"], a[href="#contact-form"]').forEach(link => {
   link.addEventListener('click', event => {
     event.preventDefault();
     closeNavigation();
-    scrollToContactForm(true);
+    scrollToTarget('#contact-form', true);
     history.replaceState(null, '', '#contact-form');
   });
 });
-
-const scrollToReviews = (smooth = true) => {
-  const viewport = document.querySelector('.story-viewport');
-  const heading = document.querySelector('.stories-heading');
-  const target = viewport || heading || document.querySelector('#stories');
-  if (!target) return;
-  const headerHeight = header ? header.offsetHeight : 76;
-  const rect = target.getBoundingClientRect();
-  const availableHeight = innerHeight - headerHeight;
-  const offset = viewport && rect.height < availableHeight
-    ? headerHeight + Math.max(24, (availableHeight - rect.height) * 0.5)
-    : headerHeight + 32;
-  const targetY = Math.max(0, scrollY + rect.top - offset);
-  window.scrollTo({ top: targetY, behavior: smooth && !reduced ? 'smooth' : 'auto' });
-};
 
 document.querySelectorAll('a[href="#stories"]').forEach(link => {
   link.addEventListener('click', event => {
     event.preventDefault();
     closeNavigation();
-    scrollToReviews(true);
+    scrollToTarget('.story-viewport', true);
     history.replaceState(null, '', '#stories');
   });
 });
 
 if (location.hash === '#contact' || location.hash === '#contact-form') {
-  requestAnimationFrame(() => scrollToContactForm(false));
+  requestAnimationFrame(() => scrollToTarget('#contact-form', false));
 } else if (location.hash === '#stories') {
-  requestAnimationFrame(() => scrollToReviews(false));
+  requestAnimationFrame(() => scrollToTarget('.story-viewport', false));
 }
 
 const canHover = matchMedia('(hover:hover)').matches;
