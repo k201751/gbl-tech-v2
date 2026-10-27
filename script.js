@@ -136,8 +136,34 @@ document.querySelectorAll('a[href="#contact"], a[href="#contact-form"]').forEach
   });
 });
 
+const scrollToReviews = (smooth = true) => {
+  const viewport = document.querySelector('.story-viewport');
+  const heading = document.querySelector('.stories-heading');
+  const target = viewport || heading || document.querySelector('#stories');
+  if (!target) return;
+  const headerHeight = header ? header.offsetHeight : 76;
+  const rect = target.getBoundingClientRect();
+  const availableHeight = innerHeight - headerHeight;
+  const offset = viewport && rect.height < availableHeight
+    ? headerHeight + Math.max(24, (availableHeight - rect.height) * 0.5)
+    : headerHeight + 32;
+  const targetY = Math.max(0, scrollY + rect.top - offset);
+  window.scrollTo({ top: targetY, behavior: smooth && !reduced ? 'smooth' : 'auto' });
+};
+
+document.querySelectorAll('a[href="#stories"]').forEach(link => {
+  link.addEventListener('click', event => {
+    event.preventDefault();
+    closeNavigation();
+    scrollToReviews(true);
+    history.replaceState(null, '', '#stories');
+  });
+});
+
 if (location.hash === '#contact' || location.hash === '#contact-form') {
   requestAnimationFrame(() => scrollToContactForm(false));
+} else if (location.hash === '#stories') {
+  requestAnimationFrame(() => scrollToReviews(false));
 }
 
 const canHover = matchMedia('(hover:hover)').matches;
